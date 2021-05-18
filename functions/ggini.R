@@ -1,5 +1,5 @@
 # function to run calculate GGinis
-ggini <- function (.data, outcome, grouping, weights, output=c("short", "long")) {
+ggini <- function (.data, outcome, grouping, weights) {
   # this is all just prep
   outcome <- deparse(substitute(outcome)) ##
   grouping <- deparse(substitute(grouping)) ##
@@ -16,14 +16,15 @@ ggini <- function (.data, outcome, grouping, weights, output=c("short", "long"))
   
   df <- data.frame(x = as.numeric(.data[[outcome]]), z = as.factor(.data[[grouping]]), w = as.numeric(.data[[weights]]))
   z <- factor(grouping)
-  df <- df[stats::complete.cases(df), , drop = FALSE]
+  df <- df[stats::complete.cases(df), ,drop = FALSE]
+  df[, "w"] <- df[, "w"]/sum(df[, "w"])
   n <- as.numeric(nrow(df))
   n_weighted <- sum(df[, "w"])
   dfSplit <- split(df[, c("x", "w")], df[, "z"])
   n_group <- table(df[, "z"])
   n_group_weighted <- sapply(dfSplit, function(df) sum(df[, 
                                                           "w"]), simplify = TRUE)
-  df[, "w"] <- df[, "w"]/sum(df[, "w"])
+
   xMean <- stats::weighted.mean(df[, "x"], df[, "w"])
   xMean_group <- sapply(dfSplit, function(df) stats::weighted.mean(df[,"x"], df[, "w"]), simplify = TRUE)
   share_group <- n_group_weighted/n_weighted
@@ -42,15 +43,11 @@ ggini <- function (.data, outcome, grouping, weights, output=c("short", "long"))
   
   ggini_value <- g_sums/(2*xMean)
   
-  if (output == "long") {
+
   return(list("group_shares" = share_group,
               "group_means" = xMean_group,
               "overall_mean" = xMean,
               "no_groups" = n_cat,
-              "group_gini" = ggini_value)) } else {
-                return(gini_value)
-              }
+              "group_gini" = ggini_value)) 
 }
-
-
 

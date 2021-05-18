@@ -65,5 +65,9 @@ dinolog <- function (formula, weights = NULL, data)
               regression_results = summary_regression, note = note))
 }
 
-# 
+# inequality ratio
+
+ineq_ratio <- function (.x) {
+  min(.x, na.rm = T) / max(.x, na.rm = T)
+}
 
