@@ -1,0 +1,261 @@
+---
+title: Measuring Intersectional Inequality in Sub-Saharan Africa
+author: 
+  - Dario Meili^[Nadel Center for Development and Cooperation, ETH Zurich, Switzerland, <dario.meili@nadel.ethz.ch>]
+date: \today
+abstract: |
+   Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
+thanks: |
+  Thanks ...
+keywords: [Inequality, Intersectionality, Measurement, Poverty]
+jel: [I24, I32, J15, J16]
+bibliography: intersectionality-inequality.bib
+csl: 'apa-no-ampersand.csl'
+output: 
+  bookdown::pdf_document2:
+    template: pandoc_template.tex
+    keep_tex: true
+    number_sections: yes
+    toc: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(magrittr)
+library(knitr)
+library(kableExtra)
+library(ggrepel)
+library(aswp)
+library(ggpubr)
+
+load("./../data/master.Rda")
+```
+
+```{r intro, include=FALSE}
+# number of observations
+n_obs <- sum(unlist(map(df_nest$data, ~nrow(.))))
+# number of countries
+n_country <- length(unique(df_nest$country_name))
+# min year
+min_year <- min(df_nest$year)
+# max year 
+max_year <- max(df_nest$year)
+```
+
+
+# Introduction
+ 
+In recent years, it has become evident that not all groups of people profit equally from the progress in human development (*citation*). If these disparities between social groups arise due to systematic differences inequality of opportunity, they might even be detrimental to growth (cite: Ferreira et al. 2014, Marrero et al. 2013). The concept of horizontal inequality is increasingly being applied to measure inequalities between socially salient groups like gender or ethnicity, (cite: Mancini et al. 2008, Tetteh-Bah et al. (forthcoming)).  At the same time, the call that social inequalities have to be studied from an *intersectional* perspective, has largely been unanswered in the empirical literature.
+
+To fill this gap, this paper introduces the concept of intersectionality into the measurement of horizontal inequality. In contrast to the existing literature, this paper investigates whether thinking about horizontal inequalities intersectionally adds valuable information to the measurement of inequality rather than just increasing complexity. In particular, we analyze intersectional education inequality in Sub-Saharan Africa (SSA) by combining gender with ethnicity, religion, and place of residence (urban *versus* rural).  First, we estimate horizontal inequalities across pure groups (e.g. $gender$) and intersectional groups (e.g. $gender\times ethnicity$) using Group-Gini indices as an outcome. Second, we compare the pure group estimates to the intersectional estimates to analyze whether there is in fact an intersectional component to horizontal inequality. In other words, we explore whether there is and independent additive effect of the interaction of groups, or whether inequality is driven by the the sum of the individual effects of being in two disadvantaged groups at the same time. Third, we explore time trends to determine if intersectional inequality in education has increased or decreased over the year, and compare this to time trends in vertical and horizontal inequality.
+
+To this end, we combine data from multiple rounds of the Demographic and Health Surveys (DHS) for `r n_country` countries from `r min_year` to `r max_year` resulting in `r prettyNum(n_obs, big.mark="'")` unique observations on the individual level. We find that [*SUMMARIZE RESULTS*]
+
+This paper contributes to several lines of research. First, it integrates the concept of intersectionality into the growing literature on the measurement of horizontal inequality. 
+
+General inequality: 
+- Piketty and Saez 2014 (USA & Europe)
+- Ravallion 2014 (Developing world)
+
+- Shorrocks (1984)
+- Mancini (2008)
+- Mancini, Stewart and Brown (2008)
+- Brunori (2018)
+- canelas, 2018
+- cederman (2011)
+- cedermann (2015)
+- cogneau (2008)
+- elbers 2008
+- ferreira (2011)?
+- Langer 2005
+- Langer et al 2007
+- Leivas & Dos Santos (2016)
+
+Second, our research relates to the literature on gender inequality in education, especially… 
+- cooray 2011
+- Hill and King 1995
+- Klasen 2002
+- Klasen & Lamanna 2009
+
+Third, this paper speaks to a large empirical literature that explores ethnic and religious inequality on the African continent.
+
+- easterly 1997
+- Alesina, 2016
+- Alcorta, 2018
+- Houle & bodea (2017)
+- Montalvo  &  Reynal-Querol 2005 (ethnic)
+- montalvo reynal-querol 2003  religious
+- Muller (2017)
+
+Urban rural: 
+
+- Günther & Harttgen (2012)
+- Harttgen & Klasen (2012)
+- Murshed & Gates (2005)
+- young 2013
+
+Finally, my research contributes to a strand of literature in sociology, social psychology, feminist and gender studies on the concept of intersectionality in general. 
+
+- crenshaw 1990
+- 
+
+The remainder of this paper proceeds as follows. Section \@ref(intersectional-inequality) introduces the concept of intersectional inequality. Section \@ref(data) presents more information on the data. Section \@ref(empirical-strategy) describes the empirical strategy to estimate the intersectional inequalities and for the subsequent analysis. Section \@ref(results) presents the results of the analysis. Section \@ref(conclusion) concludes. 
+
+# Intersectional Inequality
+
+Describe the concept of intersectionality in relation to vertical and horizontal inequality. 
+
+# Data
+
+- Data sets, Sample
+- Descriptive Statistics (Variable description)
+
+# Empirical Strategy 
+
+# Results
+
+## Time trends in inequality
+
+(ref:foo) Time trends in GGini for Gender x Ethnicity Groups.
+
+```{r trends-eth, fig.cap= "ref:foo", floatfoot = "A Figure note.", echo=FALSE, warning=FALSE}
+# only keep newest years
+df_newest <- df_nest %>% 
+  select(country_name, year, starts_with("gg_")) %>% 
+  arrange(country_name, year) %>% 
+  group_by(country_name) %>% 
+  slice(n())
+
+# only keep oldest
+df_oldest <- df_nest %>% 
+  select(country_name, year, starts_with("gg_")) %>% 
+  arrange(country_name, -year) %>% 
+  group_by(country_name) %>% 
+  slice(n())
+
+df_path <- bind_rows("new"=df_newest, "old"=df_oldest, .id="time") %>% 
+  mutate(country_name = fct_recode(country_name, "DR Congo" = "Democratic Republic of the Congo"))
+  
+df_path %>%
+  ggplot(aes(x=gg_gen_eth, y=fct_rev(country_name))) +
+  geom_text_repel(aes(label=as_factor(year)), size=2) +
+     geom_segment(data=df_path %>% 
+                    select(country_name, gg_gen_eth, time) %>%
+                    pivot_wider(names_from = time, values_from = gg_gen_eth),
+                    aes(x=old, y=country_name, xend = new, yend=country_name),
+                  arrow=arrow(length=unit(0.15,"cm"))) +
+  geom_point(aes(colour=time)) +
+  scale_colour_viridis_d(option = "cividis") +
+  theme_minimal() +
+  labs(x = "GGini(Gender x Ethnicity)", y = "") +
+  guides(colour = FALSE)
+```
+
+ 
+(ref:fig-trends-rel) Time trends in GGini for Gender x Religion Groups.
+(ref:note_trends-rel) Test note. 
+
+```{r trends-rel, fig.cap='ref:fig-trends-rel', floatfoot = '(ref:note-trends-rel)', echo=FALSE}
+df_path %>%
+  ggplot(aes(x=gg_gen_rel, y=fct_rev(country_name))) +
+  geom_text_repel(aes(label=as_factor(year)), size=2) +
+     geom_segment(data=df_path %>% 
+                    select(country_name, gg_gen_rel, time) %>%
+                    pivot_wider(names_from = time, values_from = gg_gen_rel),
+                    aes(x=old, y=country_name, xend = new, yend=country_name),
+                  arrow=arrow(length=unit(0.15,"cm"))) +
+  geom_point(aes(colour=time)) +
+  scale_colour_viridis_d(option = "cividis") +
+  theme_minimal() +
+  labs(x = "GGini(Gender x Religion)", y = "") +
+  guides(colour = FALSE)
+
+```
+
+(ref:fig-trends-res) Time trends in GGini for Gender x Urban/Rural Groups. 
+(ref:note_trends-res) Test note. 
+
+```{r trends-res, fig.cap='ref:fig-trends-res', floatfoot = '(ref:note-trends-res)', echo=FALSE}
+df_path %>%
+  ggplot(aes(x=gg_gen_res, y=fct_rev(country_name))) +
+  geom_text_repel(aes(label=as_factor(year)), size=2) +
+     geom_segment(data=df_path %>% 
+                    select(country_name, gg_gen_res, time) %>%
+                    pivot_wider(names_from = time, values_from = gg_gen_res),
+                    aes(x=old, y=country_name, xend = new, yend=country_name),
+                  arrow=arrow(length=unit(0.15,"cm"))) +
+  geom_point(aes(colour=time)) +
+  scale_colour_viridis_d(option = "cividis") +
+  theme_minimal() +
+  labs(x = "GGini(Gender x Residence)", y = "") +
+  guides(colour = FALSE)
+```
+
+## Comparing inequality measures
+
+```{r}
+df_nest %>% 
+  ggplot(aes(x=gg_gen, y=unlist(res_gen_ratio))) + 
+  geom_point() + 
+  stat_cor(method = "pearson") +
+  labs(caption = "Groups: Gender", x="GGini", y="Ratio lowest/highest")
+```
+
+```{r gender-cor, echo=FALSE}
+df_nest %>% 
+  ggplot(aes(x=gg_gen_eth, y=unlist(res_gen_eth_ratio))) + 
+  geom_point() + 
+  stat_cor(method = "pearson") +
+  labs(caption = "Groups: Gender*Ethnicity", x="GGini", y="Ratio lowest/highest") 
+```
+
+## 
+
+
+
+# Conclusion
+
+testing a citation [@Fields2003]
+
+\clearpage
+
+# References {.unnumbered}
+
+::: {#refs}
+:::
+
+```{=tex}
+\appendix
+\clearpage
+```
+
+# Group Gini Results
+
+```{r overview, results='asis', echo=F}
+# table of all ginis by country/year
+df_nest %>% 
+  select(year, 
+         "gender" = gg_gen, 
+         "religion" = gg_rel, 
+         "ethnicity" = gg_eth,
+         "residence" = gg_res, 
+         "gen*rel"=gg_gen_rel, 
+         "gen*eth"=gg_gen_eth,
+         "gen*res"=gg_gen_res) %>% 
+  kbl(format = "latex", 
+      longtable = T,
+      digits = 2,
+                   row.names = F,
+                   booktabs = T,
+                   linesep = "",
+                   escape = F, 
+      caption = "Intersectional Group Gini Indices by Year and Country") %>% 
+  kable_styling(latex_options = c("repeat_header")) %>% 
+  pack_rows(index = table(fct_inorder(df_nest$country_name))) 
+```
+
+# Test two
+
+another appendix chapter
